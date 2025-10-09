@@ -20,7 +20,7 @@ class RequestdocController extends BaseController
     *   description="Liste des pièces jointes",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des pièces jointes."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -30,7 +30,7 @@ class RequestdocController extends BaseController
 		App::setLocale($user->lg);
         try {
             // Code to list Requestdoc
-            $query = Requestdoc::select('uid', $user->lg . ' as label', 'status', 'created_at')
+            $query = Requestdoc::select('uid', "$user->lg as label", 'status', 'created_at')
             ->orderByDesc('created_at')
             ->get();
             // Vérifier si les données existent
@@ -60,7 +60,7 @@ class RequestdocController extends BaseController
     *   description="Détail d'une pièce jointe",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail d'une pièce jointe."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -69,7 +69,7 @@ class RequestdocController extends BaseController
         $user = Auth::user();
 		App::setLocale($user->lg);
         // Vérifier si l'ID est présent et valide
-        $requestdoc = Requestdoc::select($user->lg . ' as label', 'status')
+        $requestdoc = Requestdoc::select("$user->lg as label", 'status')
         ->where('uid', $uid)
         ->first();
         if (!$requestdoc) {
@@ -104,7 +104,7 @@ class RequestdocController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Pièce jointe enregistée avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -164,7 +164,7 @@ class RequestdocController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Pièce jointe modifiée avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -222,7 +222,7 @@ class RequestdocController extends BaseController
     *   description="Suppression d'une pièce jointe",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Pièce jointe supprimée avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */

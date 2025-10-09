@@ -15,31 +15,19 @@ class MaritalStatusSeeder extends Seeder
     public function run(){
         MaritalStatus::firstOrCreate(
             ["en" => 'Bachelor'],
-            [
-                "en" => 'Bachelor',
-                "fr" => 'Célibataire',
-            ]
+            ["fr" => 'Célibataire']
         );
         MaritalStatus::firstOrCreate(
             ["en" => 'Married'],
-            [
-                "en" => 'Married',
-                "fr" => 'Marié(e)',
-            ]
+            ["fr" => 'Marié(e)']
         );
         MaritalStatus::firstOrCreate(
             ["en" => 'Divorced'],
-            [
-                "en" => 'Divorced',
-                "fr" => 'Divorcé(e)',
-            ]
+            ["fr" => 'Divorcé(e)']
         );
         MaritalStatus::firstOrCreate(
             ["en" => 'Widower'],
-            [
-                "en" => 'Widower',
-                "fr" => 'Veuf/Veuve',
-            ]
+            ["fr" => 'Veuf/Veuve']
         );
     }
 }

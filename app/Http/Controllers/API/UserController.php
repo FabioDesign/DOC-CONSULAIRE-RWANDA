@@ -21,7 +21,7 @@ class UserController extends BaseController
     *   description="Liste des Utilisateurs",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des Utilisateurs."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -34,7 +34,7 @@ class UserController extends BaseController
             $limit = isset($request->limit) ? (int) $request->limit:10;
             $status = isset($request->status) ? (int) $request->status:'';
             // Récupérer les données
-            $query = User::select('users.uid', 'lastname', 'firstname', 'gender', 'number', 'email', $user->lg . ' as label', 'users.status', 'users.created_at')
+            $query = User::select('users.uid', 'lastname', 'firstname', 'gender', 'number', 'email', "$user->lg as label", 'users.status', 'users.created_at')
             ->leftJoin('profiles', 'profiles.id','=','users.profile_id')
             ->where('profile_id', '!=', 1)
             ->where('users.id', '!=', $user->id)
@@ -82,7 +82,7 @@ class UserController extends BaseController
     *   description="Détail d'Utilisateur",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail d'Utilisateur."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -104,21 +104,21 @@ class UserController extends BaseController
             // Districts
             $district = District::where('id', $sector->district_id)->first();
             // Provinces
-            $province = Province::select('id', $user->lg . ' as label')
+            $province = Province::select('id', "$user->lg as label")
             ->where('id', $district->province_id)
             ->first();
             // Villes
             $towns = District::where('id', $query->town_id)->first();
             // Régions
-            $region = Province::select('id', $user->lg . ' as label', 'country_id')
+            $region = Province::select('id', "$user->lg as label", 'country_id')
             ->where('id', $towns->province_id)
             ->first();
             // Pays
-            $country = Country::select('id', $user->lg . ' as label', 'alpha')
+            $country = Country::select('id', "$user->lg as label", 'alpha')
             ->where('id', $region->country_id)
             ->first();
             // Situation matrimoniale
-            $maritalstatus = MaritalStatus::select('id', $user->lg . ' as label')
+            $maritalstatus = MaritalStatus::select('id', "$user->lg as label")
             ->where('id', $query->maritalstatus_id)
             ->first();
             $data = [
@@ -188,7 +188,7 @@ class UserController extends BaseController
             // Nationalité
             $data['nationality'] = '';
             if ($query->nationality_id != 0) {
-                $nationality = Nationality::select('id', $user->lg . ' as label')
+                $nationality = Nationality::select('id', "$user->lg as label")
                 ->where('id', $query->nationality_id)
                 ->first();
                 $data['nationality'] = [
@@ -199,7 +199,7 @@ class UserController extends BaseController
             // Profile
             $data['profile'] = '';
             if ($query->profile_id != 0) {
-                $profile = Profile::select('id', $user->lg . ' as label')
+                $profile = Profile::select('id', "$user->lg as label")
                 ->where('id', $query->profile_id)
                 ->first();
                 $data['profile'] = [
@@ -256,7 +256,7 @@ class UserController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Utilisateur modifié avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -439,7 +439,7 @@ class UserController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Profil utilisateur modifié avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */

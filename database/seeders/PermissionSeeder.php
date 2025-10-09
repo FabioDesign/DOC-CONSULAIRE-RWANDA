@@ -19,20 +19,10 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 1,
                 'action_id' => 1,
                 'profile_id' => 1,
-            ],
-            [
-                'menu_id' => 1,
-                'action_id' => 1,
-                'profile_id' => 1,
             ]
         );
         // Documents
         Permission::firstOrCreate(
-            [
-                'menu_id' => 2,
-                'action_id' => 1,
-                'profile_id' => 1,
-            ],
             [
                 'menu_id' => 2,
                 'action_id' => 1,
@@ -45,20 +35,10 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 3,
                 'action_id' => 1,
                 'profile_id' => 1,
-            ],
-            [
-                'menu_id' => 3,
-                'action_id' => 1,
-                'profile_id' => 1,
             ]
         );
         // Paramètres
         Permission::firstOrCreate(
-            [
-                'menu_id' => 4,
-                'action_id' => 1,
-                'profile_id' => 1,
-            ],
             [
                 'menu_id' => 4,
                 'action_id' => 1,
@@ -71,20 +51,10 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 5,
                 'action_id' => 1,
                 'profile_id' => 1,
-            ],
-            [
-                'menu_id' => 5,
-                'action_id' => 1,
-                'profile_id' => 1,
             ]
         );
         // Gestion des Utilisateurs
         Permission::firstOrCreate(
-            [
-                'menu_id' => 6,
-                'action_id' => 1,
-                'profile_id' => 1,
-            ],
             [
                 'menu_id' => 6,
                 'action_id' => 1,
@@ -97,11 +67,6 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 7,
                 'action_id' => 1,
                 'profile_id' => 1,
-            ],
-            [
-                'menu_id' => 7,
-                'action_id' => 1,
-                'profile_id' => 1,
             ]
         );
         // Piste d'audit
@@ -110,9 +75,12 @@ class PermissionSeeder extends Seeder
                 'menu_id' => 8,
                 'action_id' => 1,
                 'profile_id' => 1,
-            ],
+            ]
+        );
+        // Demandes
+        Permission::firstOrCreate(
             [
-                'menu_id' => 8,
+                'menu_id' => 9,
                 'action_id' => 1,
                 'profile_id' => 1,
             ]

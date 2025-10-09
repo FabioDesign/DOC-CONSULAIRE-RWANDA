@@ -17,7 +17,7 @@
                         "description": "Liste des documents."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -121,7 +121,7 @@
                         "description": "Détail d'un document."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -227,7 +227,7 @@
                         "description": "Document supprimé avec succès."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -252,7 +252,7 @@
                         "description": "Liste de Nationalités."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -272,7 +272,7 @@
                         "description": "Liste de Pays."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -292,7 +292,7 @@
                         "description": "Liste de provinces."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -312,7 +312,7 @@
                         "description": "Liste de régions."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -332,7 +332,7 @@
                         "description": "Liste de districts."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -352,7 +352,7 @@
                         "description": "Liste de secteurs."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -372,7 +372,7 @@
                         "description": "Liste de cellules."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -392,7 +392,7 @@
                         "description": "Liste des menus."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -412,7 +412,7 @@
                         "description": "Liste des actions."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -432,7 +432,7 @@
                         "description": "Liste des périodes."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -475,7 +475,7 @@
                         "description": "Vérification de l'email."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -521,7 +521,7 @@
                         "description": "Vérification du Code OTP."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -577,7 +577,7 @@
                         "description": "Mot de passe modifié avec succès."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -626,7 +626,7 @@
                         "description": "Mot de passe modifié avec succès."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -651,7 +651,7 @@
                         "description": "Liste des profils."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -743,7 +743,7 @@
                         "description": "Détail d'un profil."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -837,7 +837,7 @@
                         "description": "Profil supprimé avec succès."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -885,7 +885,7 @@
                         "description": "Renvoyer OTP."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -931,7 +931,7 @@
                         "description": "Validation du Code OTP."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1087,7 +1087,7 @@
                         "description": "Liste des pièces jointes."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1157,7 +1157,7 @@
                         "description": "Détail d'une pièce jointe."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1229,7 +1229,7 @@
                         "description": "Pièce jointe supprimée avec succès."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1254,7 +1254,7 @@
                         "description": "Liste des Conjoints."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1279,7 +1279,7 @@
                         "description": "Détail du conjoint."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1448,7 +1448,7 @@
                         "description": "Liste des Utilisateurs."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1473,7 +1473,7 @@
                         "description": "Détail d'Utilisateur."
                     },
                     "400": {
-                        "description": "Bad Request."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."

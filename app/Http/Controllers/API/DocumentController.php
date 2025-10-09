@@ -20,7 +20,7 @@ class DocumentController extends BaseController
     *   description="Liste des documents",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des documents."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -30,7 +30,7 @@ class DocumentController extends BaseController
 		App::setLocale($user->lg);
         try {
             // Code to list documents
-            $query = Document::select('uid', 'code', 'documents.' . $user->lg . ' as label', 'amount', 'number', 'description_' . $user->lg . ' as description', 'periods.' . $user->lg . ' as period', 'status', 'created_at')
+            $query = Document::select('uid', 'code', 'documents.' . "$user->lg as label", 'amount', 'number', 'description_' . $user->lg . ' as description', 'periods.' . $user->lg . ' as period', 'status', 'created_at')
             ->join('periods', 'periods.id','=','documents.period_id')
             ->orderByDesc('created_at')
             ->get();
@@ -66,7 +66,7 @@ class DocumentController extends BaseController
     *   description="Détail d'un document",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail d'un document."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -75,7 +75,7 @@ class DocumentController extends BaseController
         $user = Auth::user();
 		App::setLocale($user->lg);
         // Vérifier si l'ID est présent et valide
-        $document = Document::select('id', 'code', $user->lg . ' as label', 'amount', 'number', 'description_' . $user->lg . ' as description', 'status')
+        $document = Document::select('id', 'code', "$user->lg as label", 'amount', 'number', 'description_' . $user->lg . ' as description', 'status')
         ->where('uid', $uid)
         ->first();
         if (!$document) {
@@ -84,13 +84,13 @@ class DocumentController extends BaseController
         }
         try {
             // Periodes
-            $period = Period::select('id', $user->lg . ' as label')
+            $period = Period::select('id', "$user->lg as label")
             ->where('id', $document->period_id)
             ->first();
             // Charger les files avec eager loading et les transformer directement
             $files = $document->files
             ->join('requestdocs', 'requestdocs.id','=','files.requestdoc_id')
-            ->sortBy([$user->lg . ' as label', 'required', 'files.status'])
+            ->sortBy(["$user->lg as label", 'required', 'files.status'])
             ->map(function ($file) {
                 return [
                     'label' => $file->label,
@@ -148,7 +148,7 @@ class DocumentController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Document enregisté avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -246,7 +246,7 @@ class DocumentController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Document modifié avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -331,7 +331,7 @@ class DocumentController extends BaseController
     *   description="Suppression d'un document",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Document supprimé avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */

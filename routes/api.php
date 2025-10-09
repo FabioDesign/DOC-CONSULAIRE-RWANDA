@@ -49,6 +49,7 @@ Route::get('actions/list/{lg}', [ListsController::class, 'actions']);
 Route::get('periods/list/{lg}', [ListsController::class, 'periods']);
 Route::get('country/list/{lg}', [ListsController::class, 'country']);
 Route::get('provinces/list/{lg}', [ListsController::class, 'provinces']);
+Route::get('menuactions/list/{lg}', [ListsController::class, 'menuactions']);
 Route::get('cells/list/{lg}/{sector_id}', [ListsController::class, 'cells']);
 Route::get('nationality/list/{lg}', [ListsController::class, 'nationality']);
 Route::get('regions/list/{lg}/{country_id}', [ListsController::class, 'regions']);
@@ -62,6 +63,8 @@ Route::middleware(['auth:api'])->group(function () {
     'documents' => DocumentController::class,
     'requestdoc' => RequestdocController::class,
   ]);
+  // Route pour la liste des actions d'un menu
+  Route::get('profiles/menu/{id}', [ProfileController::class, 'menu']);
   // Route pour la modification du profil utilisateur
   Route::post('users/profil', [UserController::class, 'profil']);
   // Route pour la photo de profil

@@ -20,7 +20,7 @@ class SpouseController extends BaseController
     *   description="Liste des Conjoints",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des Conjoints."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -65,7 +65,7 @@ class SpouseController extends BaseController
     *   description="Détail du conjoint",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail du conjoint."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -89,21 +89,21 @@ class SpouseController extends BaseController
             // Districts
             $district = District::where('id', $sector->district_id)->first();
             // Provinces
-            $province = Province::select('id', $user->lg . ' as label')
+            $province = Province::select('id', "$user->lg as label")
             ->where('id', $district->province_id)
             ->first();
             // Villes
             $towns = District::where('id', $query->town_id)->first();
             // Régions
-            $region = Province::select('id', $user->lg . ' as label', 'country_id')
+            $region = Province::select('id', "$user->lg as label", 'country_id')
             ->where('id', $towns->province_id)
             ->first();
             // Pays
-            $country = Country::select('id', $user->lg . ' as label', 'alpha')
+            $country = Country::select('id', "$user->lg as label", 'alpha')
             ->where('id', $region->country_id)
             ->first();
             // Situation matrimoniale
-            $maritalstatus = MaritalStatus::select('id', $user->lg . ' as label')
+            $maritalstatus = MaritalStatus::select('id', "$user->lg as label")
             ->where('id', $query->maritalstatus_id)
             ->first();
             $data = [
@@ -168,7 +168,7 @@ class SpouseController extends BaseController
             // Nationalité
             $data['nationality'] = '';
             if ($query->nationality_id != 0) {
-                $nationality = Nationality::select('id', $user->lg . ' as label')
+                $nationality = Nationality::select('id', "$user->lg as label")
                 ->where('id', $query->nationality_id)
                 ->first();
                 $data['nationality'] = [
@@ -179,7 +179,7 @@ class SpouseController extends BaseController
             // Profile
             $data['profile'] = '';
             if ($query->profile_id != 0) {
-                $profile = Profile::select('id', $user->lg . ' as label')
+                $profile = Profile::select('id', "$user->lg as label")
                 ->where('id', $query->profile_id)
                 ->first();
                 $data['profile'] = [
@@ -236,7 +236,7 @@ class SpouseController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="conjoint modifié avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */

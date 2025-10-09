@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\{App, Log};
-use App\Models\{Cells, Country, District, Nationality, Period, Province, Sector};
+use App\Models\{Action, Cells, Country, District, Menu, Nationality, Period, Province, Sector};
 use App\Http\Controllers\API\BaseController as BaseController;
 
 class ListsController extends BaseController
@@ -17,14 +17,14 @@ class ListsController extends BaseController
     *   operationId="nationality",
     *   description="Liste de Nationalités.",
     *   @OA\Response(response=200, description="Liste de Nationalités."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
     public function nationality($lg): JsonResponse {
 		App::setLocale($lg);
         try {
-            $nationality = Nationality::select('id', $lg . ' as label')->get();
+            $nationality = Nationality::select('id', "$lg as label")->get();
             // Vérifier si les données existent
             if ($nationality->isEmpty()) {
                 Log::warning("List::nationality - Aucune nationalité trouvée.");
@@ -36,7 +36,6 @@ class ListsController extends BaseController
             return $this->sendError("Erreur lors de la récupération des nationalités.");
         }
     }
-
     // LListe de pays
     /**
     * @OA\Get(
@@ -45,14 +44,14 @@ class ListsController extends BaseController
     *   operationId="country",
     *   description="Liste de Pays.",
     *   @OA\Response(response=200, description="Liste de Pays."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
     public function country($lg): JsonResponse {
 		App::setLocale($lg);
         try {
-            $country = Country::select('id', 'code', 'alpha', $lg . ' as label')
+            $country = Country::select('id', 'code', 'alpha', "$lg as label")
             ->where('status', 1)
             ->get();
             // Vérifier si les données existent
@@ -75,14 +74,14 @@ class ListsController extends BaseController
     *   operationId="province",
     *   description="Liste de provinces.",
     *   @OA\Response(response=200, description="Liste de provinces."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
     public function provinces($lg): JsonResponse {
 		App::setLocale($lg);
         try {
-            $provinces = Province::select('id', 'code', $lg . ' as label')->get();
+            $provinces = Province::select('id', 'code', "$lg as label")->get();
             // Vérifier si les données existent
             if ($provinces->isEmpty()) {
                 Log::warning("List::provinces - Aucun province trouvé.");
@@ -94,7 +93,6 @@ class ListsController extends BaseController
             return $this->sendError("Erreur lors de la récupération des provinces.");
         }
     }
-
     // Liste de régions
     /**
     * @OA\Get(
@@ -103,14 +101,14 @@ class ListsController extends BaseController
     *   operationId="region",
     *   description="Liste de régions.",
     *   @OA\Response(response=200, description="Liste de régions."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
     public function regions($lg, $country_id): JsonResponse {
 		App::setLocale($lg);
         try {
-            $regions = Province::select('id', 'code', $lg . ' as label')
+            $regions = Province::select('id', 'code', "$lg as label")
             ->where('country_id', $country_id)
             ->get();
             // Vérifier si les données existent
@@ -124,7 +122,6 @@ class ListsController extends BaseController
             return $this->sendError("Erreur lors de la récupération des regions.");
         }
     }
-
     // Liste de districts
     /**
     * @OA\Get(
@@ -133,7 +130,7 @@ class ListsController extends BaseController
     *   operationId="district",
     *   description="Liste de districts.",
     *   @OA\Response(response=200, description="Liste de districts."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -154,7 +151,6 @@ class ListsController extends BaseController
             return $this->sendError("Erreur lors de la récupération des districts.");
         }
     }
-
     // Liste de secteurs
     /**
     * @OA\Get(
@@ -163,7 +159,7 @@ class ListsController extends BaseController
     *   operationId="sector",
     *   description="Liste de secteurs.",
     *   @OA\Response(response=200, description="Liste de secteurs."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -179,13 +175,12 @@ class ListsController extends BaseController
                 Log::warning("List::sectors - Aucun secteur trouvé.");
                 return $this->sendSuccess("Aucune donnée trouvée.");
             }
-            return $this->sendSuccess(__('message.listector'), $sectors);
+            return $this->sendSuccess(__('message.listsector'), $sectors);
         } catch (\Exception $e) {
             Log::warning("List::sectors - Erreur lors de la récupération des secteurs: " . $e->getMessage());
             return $this->sendError("Erreur lors de la récupération des secteurs.");
         }
     }
-
     // Liste de cellules
     /**
     * @OA\Get(
@@ -194,7 +189,7 @@ class ListsController extends BaseController
     *   operationId="cells",
     *   description="Liste de cellules.",
     *   @OA\Response(response=200, description="Liste de cellules."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -224,7 +219,7 @@ class ListsController extends BaseController
     *   operationId="listMenu",
     *   description="Liste des menus",
     *   @OA\Response(response=200, description="Liste des menus."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -232,7 +227,9 @@ class ListsController extends BaseController
 		App::setLocale($lg);
         try {
             // Code to list menus
-            $menus = Menu::select('id', $lg . ' as label')->get();
+            $menus = Menu::select('id', "$lg as label")
+            ->where('status', 1)
+            ->get();
             // Vérifier si les données existent
             if ($menus->isEmpty()) {
                 Log::warning("List::menus - Aucun menu trouvé.");
@@ -252,7 +249,7 @@ class ListsController extends BaseController
     *   operationId="listAction",
     *   description="Liste des actions",
     *   @OA\Response(response=200, description="Liste des actions."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -260,7 +257,7 @@ class ListsController extends BaseController
 		App::setLocale($lg);
         try {
             // Code to list actions
-            $actions = Action::select('id', $lg . ' as label')->get();
+            $actions = Action::select('id', "$lg as label")->get();
             // Vérifier si les données existent
             if ($actions->isEmpty()) {
                 Log::warning("List::actions - Aucune action trouvée");
@@ -280,7 +277,7 @@ class ListsController extends BaseController
     *   operationId="listPeriod",
     *   description="Liste des périodes",
     *   @OA\Response(response=200, description="Liste des périodes."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -288,7 +285,7 @@ class ListsController extends BaseController
 		App::setLocale($lg);
         try {
             // Code to list periods
-            $periods = Period::select('id', $lg . ' as label')->get();
+            $periods = Period::select('id', "$lg as label")->get();
             // Vérifier si les données existent
             if ($periods->isEmpty()) {
                 Log::warning("List::periods - Aucune période trouvée");
@@ -298,6 +295,54 @@ class ListsController extends BaseController
         } catch (\Exception $e) {
             Log::warning("List::periods - Erreur lors de la récupération des périodes: " . $e->getMessage());
             return $this->sendError("Erreur lors de la récupération des périodes.");
+        }
+    }
+    //Liste des menuactions
+    /**
+    * @OA\Get(
+    *   path="/api/menuactions/list/{lg}",
+    *   tags={"Lists"},
+    *   operationId="listMenuAction",
+    *   description="Liste des menu-actions",
+    *   @OA\Response(response=200, description="Liste des menu-actions."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
+    *   @OA\Response(response=404, description="Page introuvable.")
+    * )
+    */
+    public function menuactions($lg): JsonResponse
+    {
+        App::setLocale($lg);        
+        try {
+            // Code to list menus
+            $menus = Menu::with(['actions' => function($query) use ($lg) {
+                $query->select('actions.id', "$lg as label");
+            }])
+            ->select('id', "$lg as label")
+            ->where('status', 1)
+            ->orderBy('position')
+            ->get();
+            // Vérifier si les données existent
+            if ($menus->isEmpty()) {
+                Log::info("List::menuactions - Aucun menu trouvé pour la langue: $lg");
+                return $this->sendSuccess("Aucune donnée trouvée.", []);
+            }
+            // Boucle pour formater les données
+            $query = $menus->map(function($menu) {
+                return [
+                    'id' => $menu->id,
+                    'label' => $menu->label,
+                    'actions' => $menu->actions->map(function($action) {
+                        return [
+                            'id' => $action->id,
+                            'label' => $action->label
+                        ];
+                    })
+                ];
+            });
+            return $this->sendSuccess("Liste des menu-actions.", $query);
+        } catch (\Exception $e) {
+            Log::warning("List::menuactions - Erreur: " . $e->getMessage());
+            return $this->sendError("Erreur lors de la récupération des menu-actions.");
         }
     }
 }

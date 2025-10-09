@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use \Carbon\Carbon;
 use Illuminate\Support\Str;
-use App\Models\{Action, Menu, Permission, Profile};
+use App\Models\{Action, Permission, Profile};
 use Illuminate\Http\{Request, JsonResponse};
 use Illuminate\Support\Facades\{App, DB, Validator, Log, Auth};
 use App\Http\Controllers\API\BaseController as BaseController;
@@ -20,7 +20,7 @@ class ProfileController extends BaseController
     *   description="Liste des profils",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des profils."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -30,7 +30,7 @@ class ProfileController extends BaseController
 		App::setLocale($user->lg);
         try {
             // Code to list profiles
-            $query = Profile::select('uid', $user->lg . ' as label', 'description_' . $user->lg . ' as description', 'status', 'created_at')
+            $query = Profile::select('uid', "$user->lg as label", 'description_' . $user->lg . ' as description', 'status', 'created_at')
             ->orderByDesc('created_at')
             ->get();
             // Vérifier si les données existent
@@ -61,7 +61,7 @@ class ProfileController extends BaseController
     *   description="Détail d'un profil",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail d'un profil."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -70,7 +70,7 @@ class ProfileController extends BaseController
         $user = Auth::user();
 		App::setLocale($user->lg);
         // Vérifier si l'ID est présent et valide
-        $profile = Profile::select('id', $user->lg . ' as label', 'description_' . $user->lg . ' as description', 'status')
+        $profile = Profile::select('id', "$user->lg as label", 'description_' . $user->lg . ' as description', 'status')
         ->where('uid', $uid)
         ->first();
         if (!$profile) {
@@ -123,7 +123,7 @@ class ProfileController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Profil enregisté avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -210,7 +210,7 @@ class ProfileController extends BaseController
     *      )
     *   ),
     *   @OA\Response(response=200, description="Profil modifié avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -290,7 +290,7 @@ class ProfileController extends BaseController
     *   description="Suppression d'un profil",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Profil supprimé avec succès."),
-    *   @OA\Response(response=400, description="Bad Request."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
     *   @OA\Response(response=404, description="Page introuvable.")
     * )
     */
@@ -321,6 +321,45 @@ class ProfileController extends BaseController
         } catch(\Exception $e) {
             Log::warning("Profile::destroy - Erreur lors de la suppression d'un profil : " . $e->getMessage());
             return $this->sendError("Erreur lors de la suppression d'un profil.");
+        }
+    }
+    //Liste des actions du menu
+    /**
+    * @OA\Get(
+    *   path="/api/profiles/menu/{id}",
+    *   tags={"Profiles"},
+    *   operationId="menuProfile",
+    *   description="Liste des actions du menu",
+    *   security={{"bearer":{}}},
+    *   @OA\Response(response=200, description="Liste des actions du menu."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
+    *   @OA\Response(response=404, description="Page introuvable.")
+    * )
+    */
+    public function menu($id): JsonResponse {
+        // User
+        $user = Auth::user();
+		App::setLocale($user->lg);
+        // Data
+        Log::notice("Profile::action - ID User : {$user->id} - Requête : " . $id);
+        try {
+            // Code to list actions
+            $actions = Action::select('actions.id', "$user->lg as label")
+            ->join('permissions', 'permissions.action_id','=','actions.id')
+            ->where('menu_id', $id)
+            ->where('action_id', '!=', 1)
+            ->where('profile_id', $user->profile_id)
+            ->orderBy('id')
+            ->get();
+            // Vérifier si les données existent
+            if ($actions->isEmpty()) {
+                Log::warning("Profile::action - Aucune action trouvée.");
+                return $this->sendSuccess("Aucune donnée trouvée.");
+            }
+            return $this->sendSuccess("Liste des actions du menu.", $actions);
+        } catch (\Exception $e) {
+            Log::warning("Profile::menu - Erreur lors de la récupération des actions du menu: " . $e->getMessage());
+            return $this->sendError("Erreur lors de la récupération des actions du menu.");
         }
     }
 }

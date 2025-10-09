@@ -32,7 +32,7 @@ class MenuSeeder extends Seeder
                 "icone" => 'documents-icon',
                 "target" => '/documents',
                 "menu_id" => 0,
-                "position" => 2,
+                "position" => 3,
             ]
         );
         Menu::firstOrCreate(
@@ -43,7 +43,7 @@ class MenuSeeder extends Seeder
                 "icone" => 'attachments-icon',
                 "target" => '/attachments',
                 "menu_id" => 0,
-                "position" => 3,
+                "position" => 4,
             ]
         );
         Menu::firstOrCreate(
@@ -54,7 +54,7 @@ class MenuSeeder extends Seeder
                 "icone" => 'settings-icon',
                 "target" => '/settings',
                 "menu_id" => 0,
-                "position" => 4,
+                "position" => 8,
             ]
         );
         Menu::firstOrCreate(
@@ -65,7 +65,7 @@ class MenuSeeder extends Seeder
                 "icone" => 'profile-icon',
                 "target" => '/profile',
                 "menu_id" => 0,
-                "position" => 5,
+                "position" => 7,
             ]
         );
         Menu::firstOrCreate(
@@ -87,7 +87,7 @@ class MenuSeeder extends Seeder
                 "icone" => 'appointments-icon',
                 "target" => '/appointments',
                 "menu_id" => 0,
-                "position" => 7,
+                "position" => 5,
             ]
         );
         Menu::firstOrCreate(
@@ -98,7 +98,18 @@ class MenuSeeder extends Seeder
                 "icone" => 'audit_trail-icon',
                 "target" => '/audit_trail',
                 "menu_id" => 0,
-                "position" => 8,
+                "position" => 9,
+            ]
+        );
+        Menu::firstOrCreate(
+            ["en" => 'Requests'],
+            [
+                "fr" => "Demandes",
+                "status" => 1,
+                "icone" => 'requests-icon',
+                "target" => '/requests',
+                "menu_id" => 0,
+                "position" => 2,
             ]
         );
     }
