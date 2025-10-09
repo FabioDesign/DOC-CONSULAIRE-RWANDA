@@ -61,14 +61,17 @@
                                     "amount": {
                                         "type": "string"
                                     },
-                                    "deadline": {
+                                    "number": {
                                         "type": "string"
                                     },
+                                    "period_id": {
+                                        "type": "integer"
+                                    },
                                     "description_en": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "description_fr": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "files": {
                                         "type": "array",
@@ -96,7 +99,7 @@
                         "description": "Document enregisté avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -166,14 +169,17 @@
                                     "amount": {
                                         "type": "string"
                                     },
-                                    "deadline": {
+                                    "number": {
                                         "type": "string"
                                     },
+                                    "period_id": {
+                                        "type": "integer"
+                                    },
                                     "description_en": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "description_fr": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "status": {
                                         "type": "integer"
@@ -204,7 +210,7 @@
                         "description": "Document modifié avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -430,6 +436,26 @@
                 "responses": {
                     "200": {
                         "description": "Liste des périodes."
+                    },
+                    "400": {
+                        "description": "Serveur indisponible."
+                    },
+                    "404": {
+                        "description": "Page introuvable."
+                    }
+                }
+            }
+        },
+        "/api/menuactions/list/{lg}": {
+            "get": {
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Liste des menu-actions",
+                "operationId": "listMenuAction",
+                "responses": {
+                    "200": {
+                        "description": "Liste des menu-actions."
                     },
                     "400": {
                         "description": "Serveur indisponible."
@@ -687,10 +713,10 @@
                                         "type": "string"
                                     },
                                     "description_en": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "description_fr": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "permissions": {
                                         "type": "array",
@@ -718,7 +744,7 @@
                         "description": "Profil enregisté avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -780,10 +806,10 @@
                                         "type": "string"
                                     },
                                     "description_en": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "description_fr": {
-                                        "type": "text"
+                                        "type": "string"
                                     },
                                     "status": {
                                         "type": "integer"
@@ -814,7 +840,7 @@
                         "description": "Profil modifié avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -835,6 +861,31 @@
                 "responses": {
                     "200": {
                         "description": "Profil supprimé avec succès."
+                    },
+                    "400": {
+                        "description": "Serveur indisponible."
+                    },
+                    "404": {
+                        "description": "Page introuvable."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/profiles/menu/{id}": {
+            "get": {
+                "tags": [
+                    "Profiles"
+                ],
+                "description": "Liste des actions du menu",
+                "operationId": "menuProfile",
+                "responses": {
+                    "200": {
+                        "description": "Liste des actions du menu."
                     },
                     "400": {
                         "description": "Serveur indisponible."
@@ -1132,7 +1183,7 @@
                         "description": "Pièce jointe enregistée avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1206,7 +1257,7 @@
                         "description": "Pièce jointe modifiée avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1423,7 +1474,7 @@
                         "description": "conjoint modifié avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1617,7 +1668,7 @@
                         "description": "Utilisateur modifié avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
@@ -1749,7 +1800,7 @@
                         "description": "Profil utilisateur modifié avec succès."
                     },
                     "400": {
-                        "description": "Erreur de validation."
+                        "description": "Serveur indisponible."
                     },
                     "404": {
                         "description": "Page introuvable."
