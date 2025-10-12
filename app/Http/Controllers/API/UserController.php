@@ -91,6 +91,8 @@ class UserController extends BaseController
         $user = Auth::user();
 		App::setLocale($user->lg);
         try {
+            // Info user connecté
+            if ($uid == 'perso') $uid = $user->uid;
             // Récupérer les données
             $query = User::where('uid', $uid)->first();
             if (!$query) {

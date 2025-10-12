@@ -33,28 +33,34 @@ Route::fallback(function() {
   ];
   return response()->json($response, 404);
 });
-// Route pour l'inscription
-Route::post('register/sendotp', [RegisterController::class, 'sendotp']);
-Route::post('register/validotp', [RegisterController::class, 'validotp']);
-Route::post('register/forms', [RegisterController::class, 'store']);
 // Route pour la connexion
 Route::post('users/auth', [UserController::class, 'login']);
+// Route pour l'inscription
+Route::controller(RegisterController::class)->group(function () {
+  Route::post('register/sendotp', 'sendotp');
+  Route::post('register/validotp', 'validotp');
+  Route::post('register/forms', 'store');
+});
 // Routes pour les mots de passe oubliés
-Route::post('password/verifemail', [PasswordController::class, 'verifemail']);
-Route::post('password/verifotp', [PasswordController::class, 'verifotp']);
-Route::post('password/addpass', [PasswordController::class, 'addpass']);
+Route::controller(PasswordController::class)->group(function () {
+  Route::post('password/verifemail', 'verifemail');
+  Route::post('password/verifotp', 'verifotp');
+  Route::post('password/addpass', 'addpass');
+});
 // Route pour les listes
-Route::get('menus/list/{lg}', [ListsController::class, 'menus']);
-Route::get('actions/list/{lg}', [ListsController::class, 'actions']);
-Route::get('periods/list/{lg}', [ListsController::class, 'periods']);
-Route::get('country/list/{lg}', [ListsController::class, 'country']);
-Route::get('provinces/list/{lg}', [ListsController::class, 'provinces']);
-Route::get('menuactions/list/{lg}', [ListsController::class, 'menuactions']);
-Route::get('cells/list/{lg}/{sector_id}', [ListsController::class, 'cells']);
-Route::get('nationality/list/{lg}', [ListsController::class, 'nationality']);
-Route::get('regions/list/{lg}/{country_id}', [ListsController::class, 'regions']);
-Route::get('sectors/list/{lg}/{district_id}', [ListsController::class, 'sectors']);
-Route::get('districts/list/{lg}/{province_id}', [ListsController::class, 'districts']);
+Route::controller(ListsController::class)->group(function () {
+  Route::get('menus/list/{lg}', 'menus');
+  Route::get('actions/list/{lg}', 'actions');
+  Route::get('periods/list/{lg}', 'periods');
+  Route::get('country/list/{lg}', 'country');
+  Route::get('provinces/list/{lg}', 'provinces');
+  Route::get('menuactions/list/{lg}', 'menuactions');
+  Route::get('cells/list/{lg}/{sector_id}', 'cells');
+  Route::get('nationality/list/{lg}', 'nationality');
+  Route::get('regions/list/{lg}/{country_id}', 'regions');
+  Route::get('sectors/list/{lg}/{district_id}', 'sectors');
+  Route::get('districts/list/{lg}/{province_id}', 'districts');
+});
 
 Route::middleware(['auth:api'])->group(function () {
   Route::resources([
@@ -66,11 +72,13 @@ Route::middleware(['auth:api'])->group(function () {
   // Route pour la liste des actions d'un menu
   Route::get('profiles/menu/{id}', [ProfileController::class, 'menu']);
   // Route pour la modification du profil utilisateur
-  Route::post('users/profil', [UserController::class, 'profil']);
-  // Route pour la photo de profil
-  Route::post('users/photo', [UserController::class, 'photo']);
-  // Route pour la deconnexion
-  Route::post('users/logout', [UserController::class, 'logout']);
+  Route::controller(UserController::class)->group(function () {
+    Route::post('users/profil', 'profil');
+    // Route pour la photo de profil
+    Route::post('users/photo', 'photo');
+    // Route pour la deconnexion
+    Route::post('users/logout', 'logout');
+  });
   // Route pour les mots de passe
   Route::post('password/editpass', [PasswordController::class, 'editpass']);
 });
