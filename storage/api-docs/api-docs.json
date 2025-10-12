@@ -11,7 +11,7 @@
                     "Documents"
                 ],
                 "description": "Liste des documents",
-                "operationId": "listDocs",
+                "operationId": "listDocument",
                 "responses": {
                     "200": {
                         "description": "Liste des documents."
@@ -118,7 +118,7 @@
                     "Documents"
                 ],
                 "description": "Détail d'un document",
-                "operationId": "showDocs",
+                "operationId": "showDocument",
                 "responses": {
                     "200": {
                         "description": "Détail d'un document."
@@ -456,6 +456,46 @@
                 "responses": {
                     "200": {
                         "description": "Liste des menu-actions."
+                    },
+                    "400": {
+                        "description": "Serveur indisponible."
+                    },
+                    "404": {
+                        "description": "Page introuvable."
+                    }
+                }
+            }
+        },
+        "/api/documents/list/{lg}": {
+            "get": {
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Liste des documents",
+                "operationId": "listDocs",
+                "responses": {
+                    "200": {
+                        "description": "Liste des documents."
+                    },
+                    "400": {
+                        "description": "Serveur indisponible."
+                    },
+                    "404": {
+                        "description": "Page introuvable."
+                    }
+                }
+            }
+        },
+        "/api/documents/detail/{lg}/{uid}": {
+            "get": {
+                "tags": [
+                    "Lists"
+                ],
+                "description": "Détail d'un document",
+                "operationId": "showDocs",
+                "responses": {
+                    "200": {
+                        "description": "Détail d'un document."
                     },
                     "400": {
                         "description": "Serveur indisponible."

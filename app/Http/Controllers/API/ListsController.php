@@ -1,11 +1,12 @@
 <?php
 namespace App\Http\Controllers\API;
 
+use \Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\{App, Log};
-use App\Models\{Action, Cells, Country, District, Menu, Nationality, Period, Province, Sector};
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\{Action, Cells, Country, District, Document, Menu, Nationality, Period, Province, Sector};
 
 class ListsController extends BaseController
 {
@@ -343,6 +344,104 @@ class ListsController extends BaseController
         } catch (\Exception $e) {
             Log::warning("List::menuactions - Erreur: " . $e->getMessage());
             return $this->sendError("Erreur lors de la récupération des menu-actions.");
+        }
+    }
+    //Liste des documents
+    /**
+    * @OA\Get(
+    *   path="/api/documents/list/{lg}",
+    *   tags={"Lists"},
+    *   operationId="listDocs",
+    *   description="Liste des documents",
+    *   @OA\Response(response=200, description="Liste des documents."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
+    *   @OA\Response(response=404, description="Page introuvable.")
+    * )
+    */
+    public function documents($lg): JsonResponse {
+		App::setLocale($lg);
+        try {
+            // Code to list documents
+            $query = Document::select('uid', 'code', 'documents.' . "$lg as label", 'description_' . $lg . ' as description')
+            ->orderBy('label')
+            ->get();
+            // Vérifier si les données existent
+            if ($query->isEmpty()) {
+                Log::warning("Document::index - Aucun document trouvé.");
+                return $this->sendSuccess("Aucune donnée trouvée.");
+            }
+            // Transformer les données
+            $data = $query->map(fn($data) => [
+                'uid' => $data->uid,
+                'code' => $data->code,
+                'label' => $data->label,
+                'description' => $data->description,
+            ]);
+            return $this->sendSuccess("Liste des documents.", $data);
+        } catch (\Exception $e) {
+            Log::warning("Document::index - Erreur lors de la récupération des documents: " . $e->getMessage());
+            return $this->sendError("Erreur lors de la récupération des documents.");
+        }
+    }
+    //Détail d'un document
+    /**
+    * @OA\Get(
+    *   path="/api/documents/detail/{lg}/{uid}",
+    *   tags={"Lists"},
+    *   operationId="showDocs",
+    *   description="Détail d'un document",
+    *   @OA\Response(response=200, description="Détail d'un document."),
+    *   @OA\Response(response=400, description="Serveur indisponible."),
+    *   @OA\Response(response=404, description="Page introuvable.")
+    * )
+    */
+    public function docdetail($lg, $uid): JsonResponse {
+        App::setLocale($lg);
+        // Vérifier si l'ID est présent et valide
+        $document = Document::select('id', 'code', "$lg as label", 'amount', 'number', 'period_id', 'description_' . $lg . ' as description', 'status')
+        ->where('uid', $uid)
+        ->first();
+        if (!$document) {
+            Log::warning("Document::show - Aucun document trouvé pour l'ID : " . $uid);
+            return $this->sendSuccess("Aucune donnée trouvée.");
+        }
+        // Periodes
+        $period = Period::select('id', "$lg as label")
+        ->where('id', $document->period_id)
+        ->first();
+        try {
+            // Charger les fichiers avec eager loading et les transformer directement
+            $documentWithFiles = Document::with(['files.requestdoc'])->find($document->id);
+            $files = $documentWithFiles->files
+            ->map(function ($file) use ($lg) {
+                return [
+                    'id' => $file->id,
+                    'label' => $file->requestdoc->{$lg} ?? $file->requestdoc->label, // Adaptez selon votre structure
+                    'required' => $file->required,
+                    'status' => $file->status,
+                ];
+            })
+            ->sortBy([['label', 'asc'], ['required', 'asc'], ['status', 'asc']])
+            ->values()
+            ->all();
+            
+            // Retourner les détails du document avec les files
+            return $this->sendSuccess('Détails sur le document', [
+                'code' => $document->code,
+                'label' => $document->label,
+                'amount' => $document->amount,
+                'number' => $document->number,
+                'description' => $document->description,
+                'status' => $document->status ? 'Activé' : 'Désactivé',
+                'periods' => [
+                    'id' => $period->id,
+                    'label' => $period->label,
+                ],
+                'files' => $files,
+            ]);
+        } catch(\Exception $e) {
+            Log::warning("Document::show - Erreur d'affichage d'un document : ".$e->getMessage());
+            return $this->sendError("Erreur d'affichage d'un document");
         }
     }
 }

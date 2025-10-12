@@ -16,7 +16,7 @@ class DocumentController extends BaseController
     * @OA\Get(
     *   path="/api/documents",
     *   tags={"Documents"},
-    *   operationId="listDocs",
+    *   operationId="listDocument",
     *   description="Liste des documents",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Liste des documents."),
@@ -62,7 +62,7 @@ class DocumentController extends BaseController
     * @OA\Get(
     *   path="/api/documents/{uid}",
     *   tags={"Documents"},
-    *   operationId="showDocs",
+    *   operationId="showDocument",
     *   description="Détail d'un document",
     *   security={{"bearer":{}}},
     *   @OA\Response(response=200, description="Détail d'un document."),
@@ -96,9 +96,10 @@ class DocumentController extends BaseController
             $files = $documentWithFiles->files
             ->map(function ($file) use ($user) {
                 return [
+                    'id' => $file->id,
                     'label' => $file->requestdoc->{$user->lg} ?? $file->requestdoc->label, // Adaptez selon votre structure
-                    'required' => $file->required ? 'Requis' : 'Facultatif',
-                    'status' => $file->status ? 'Activé' : 'Désactivé',
+                    'required' => $file->required,
+                    'status' => $file->status,
                 ];
             })
             ->sortBy([['label', 'asc'], ['required', 'asc'], ['status', 'asc']])

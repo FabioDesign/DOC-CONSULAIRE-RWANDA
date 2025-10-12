@@ -54,9 +54,11 @@ Route::controller(ListsController::class)->group(function () {
   Route::get('periods/list/{lg}', 'periods');
   Route::get('country/list/{lg}', 'country');
   Route::get('provinces/list/{lg}', 'provinces');
+  Route::get('documents/list/{lg}', 'documents');
   Route::get('menuactions/list/{lg}', 'menuactions');
   Route::get('cells/list/{lg}/{sector_id}', 'cells');
   Route::get('nationality/list/{lg}', 'nationality');
+  Route::get('documents/detail/{lg}/{uid}', 'docdetail');
   Route::get('regions/list/{lg}/{country_id}', 'regions');
   Route::get('sectors/list/{lg}/{district_id}', 'sectors');
   Route::get('districts/list/{lg}/{province_id}', 'districts');
