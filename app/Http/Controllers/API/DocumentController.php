@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API;
 
 use \Carbon\Carbon;
 use Illuminate\Support\Str;
-use App\Models\{Document, File, Period};
 use Illuminate\Http\{Request, JsonResponse};
+use App\Models\{Document, File, Period, Requestdoc};
 use Illuminate\Support\Facades\{App, Auth, DB, Log, Validator};
 use App\Http\Controllers\API\BaseController as BaseController;
 
@@ -197,10 +197,11 @@ class DocumentController extends BaseController
             if ($request->has('files') && is_array($request->files)) {
                 foreach ($request->files as $files) {
                     $file = Str::of($files)->explode('|');
+                    $requestdoc = Requestdoc::where('uid', $file[0])->first();
                     // Enregistrer le fichier
                     File::firstOrCreate([
+                        'requestdoc_id' => $requestdoc->id,
                         'document_id' => $document->id,
-                        'requestdoc_id' => $file[0],
                         'required' => $file[1],
                     ]);
                 }
@@ -303,10 +304,11 @@ class DocumentController extends BaseController
                 File::where('document_id', $document->id)->delete();
                 foreach ($request->files as $files) {
                     $file = Str::of($files)->explode('|');
+                    $requestdoc = Requestdoc::where('uid', $file[0])->first();
                     // Enregistrer le fichier
                     File::firstOrCreate([
+                        'requestdoc_id' => $requestdoc->id,
                         'document_id' => $document->id,
-                        'requestdoc_id' => $file[0],
                         'required' => $file[1],
                     ]);
                 }
