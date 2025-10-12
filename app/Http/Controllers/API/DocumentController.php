@@ -73,33 +73,38 @@ class DocumentController extends BaseController
     public function show($uid): JsonResponse {
         //User
         $user = Auth::user();
-		App::setLocale($user->lg);
+        App::setLocale($user->lg);
+        
         // Vérifier si l'ID est présent et valide
-        $document = Document::select('id', 'code', "$user->lg as label", 'amount', 'number', 'description_' . $user->lg . ' as description', 'status')
+        $document = Document::select('id', 'code', "$user->lg as label", 'amount', 'number', 'period_id', 'description_' . $user->lg . ' as description', 'status')
         ->where('uid', $uid)
         ->first();
+            
         if (!$document) {
             Log::warning("Document::show - Aucun document trouvé pour l'ID : " . $uid);
             return $this->sendSuccess("Aucune donnée trouvée.");
         }
+    
+        // Periodes
+        $period = Period::select('id', "$user->lg as label")
+        ->where('id', $document->period_id)
+        ->first();
         try {
-            // Periodes
-            $period = Period::select('id', "$user->lg as label")
-            ->where('id', $document->period_id)
-            ->first();
             // Charger les fichiers avec eager loading et les transformer directement
-            $files = $document->files
-            ->join('requestdocs', 'requestdocs.id','=','files.requestdoc_id')
-            ->sortBy(["$user->lg as label", 'required', 'files.status'])
-            ->map(function ($file) {
+            $documentWithFiles = Document::with(['files.requestdoc'])->find($document->id);
+            
+            $files = $documentWithFiles->files
+            ->map(function ($file) use ($user) {
                 return [
-                    'label' => $file->label,
-                    'required' => $file->required ? 'Requis' : 'facultatif',
+                    'label' => $file->requestdoc->{$user->lg} ?? $file->requestdoc->label, // Adaptez selon votre structure
+                    'required' => $file->required ? 'Requis' : 'Facultatif',
                     'status' => $file->status ? 'Activé' : 'Désactivé',
                 ];
             })
+            ->sortBy([['label', 'asc'], ['required', 'asc'], ['status', 'asc']])
             ->values()
             ->all();
+            
             // Retourner les détails du document avec les files
             return $this->sendSuccess('Détails sur le document', [
                 'code' => $document->code,

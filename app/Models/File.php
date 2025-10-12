@@ -16,4 +16,9 @@ class File extends Model
         'document_id',
         'requestdoc_id',
     ];
+
+    public function requestdoc()
+    {
+        return $this->belongsTo(Requestdoc::class, 'requestdoc_id');
+    }
 }
