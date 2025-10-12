@@ -412,10 +412,10 @@ class ListsController extends BaseController
         try {
             // Charger les fichiers avec eager loading et les transformer directement
             $documentWithFiles = Document::with(['files.requestdoc'])->find($document->id);
-            $files = $documentWithFiles->files
+            $docs = $documentWithFiles->files
             ->map(function ($file) use ($lg) {
                 return [
-                    'id' => $file->id,
+                    'uid' => $file->requestdoc->uid,
                     'label' => $file->requestdoc->{$lg} ?? $file->requestdoc->label, // Adaptez selon votre structure
                     'required' => $file->required,
                     'status' => $file->status,
@@ -437,7 +437,7 @@ class ListsController extends BaseController
                     'id' => $period->id,
                     'label' => $period->label,
                 ],
-                'files' => $files,
+                'docs' => $docs,
             ]);
         } catch(\Exception $e) {
             Log::warning("Document::show - Erreur d'affichage d'un document : ".$e->getMessage());
