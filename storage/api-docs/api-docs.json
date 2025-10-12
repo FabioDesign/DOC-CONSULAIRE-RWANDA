@@ -46,7 +46,7 @@
                                     "fr",
                                     "description_en",
                                     "description_fr",
-                                    "files"
+                                    "docs"
                                 ],
                                 "properties": {
                                     "code": {
@@ -73,7 +73,7 @@
                                     "description_fr": {
                                         "type": "string"
                                     },
-                                    "files": {
+                                    "docs": {
                                         "type": "array",
                                         "items": {
                                             "properties": {
@@ -153,7 +153,7 @@
                                     "fr",
                                     "description_en",
                                     "description_fr",
-                                    "files",
+                                    "docs",
                                     "status"
                                 ],
                                 "properties": {
@@ -184,7 +184,7 @@
                                     "status": {
                                         "type": "integer"
                                     },
-                                    "files": {
+                                    "docs": {
                                         "type": "array",
                                         "items": {
                                             "properties": {

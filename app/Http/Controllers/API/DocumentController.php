@@ -87,7 +87,7 @@ class DocumentController extends BaseController
             $period = Period::select('id', "$user->lg as label")
             ->where('id', $document->period_id)
             ->first();
-            // Charger les files avec eager loading et les transformer directement
+            // Charger les fichiers avec eager loading et les transformer directement
             $files = $document->files
             ->join('requestdocs', 'requestdocs.id','=','files.requestdoc_id')
             ->sortBy(["$user->lg as label", 'required', 'files.status'])
@@ -130,7 +130,7 @@ class DocumentController extends BaseController
     *   @OA\RequestBody(
     *      required=true,
     *      @OA\JsonContent(
-    *         required={"code", "en", "fr", "description_en", "description_fr", "files"},
+    *         required={"code", "en", "fr", "description_en", "description_fr", "docs"},
     *         @OA\Property(property="code", type="string"),
     *         @OA\Property(property="en", type="string"),
     *         @OA\Property(property="fr", type="string"),
@@ -139,7 +139,7 @@ class DocumentController extends BaseController
     *         @OA\Property(property="period_id", type="integer"),
     *         @OA\Property(property="description_en", type="string"),
     *         @OA\Property(property="description_fr", type="string"),
-    *         @OA\Property(property="files", type="array", @OA\Items(
+    *         @OA\Property(property="docs", type="array", @OA\Items(
     *               @OA\Property(property="requestdoc_id", type="integer"),
     *               @OA\Property(property="required", type="integer"),
     *               example="[1|1, 2|1, 3|0]"
@@ -168,7 +168,7 @@ class DocumentController extends BaseController
             'period_id' => 'present',
             'description_en' => 'required',
             'description_fr' => 'required',
-            'files' => 'required|array',
+            'docs' => 'required|array',
         ]);
         //Error field
         if($validator->fails()){
@@ -193,10 +193,10 @@ class DocumentController extends BaseController
             $document = Document::create($set);
             // Valider la transaction
             DB::commit();
-            // Si des fichiers sont fournies, les associer au profil
-            if ($request->has('files') && is_array($request->files)) {
-                foreach ($request->files as $files) {
-                    $file = Str::of($files)->explode('|');
+            // Si des fichiers sont fournies, les associer au document
+            if ($request->has('docs') && is_array($request->docs)) {
+                foreach ($request->docs as $docs) {
+                    $file = Str::of($docs)->explode('|');
                     $requestdoc = Requestdoc::where('uid', $file[0])->first();
                     // Enregistrer le fichier
                     File::firstOrCreate([
@@ -228,7 +228,7 @@ class DocumentController extends BaseController
     *   @OA\RequestBody(
     *      required=true,
     *      @OA\JsonContent(
-    *         required={"code", "en", "fr", "description_en", "description_fr", "files", "status"},
+    *         required={"code", "en", "fr", "description_en", "description_fr", "docs", "status"},
     *         @OA\Property(property="code", type="string"),
     *         @OA\Property(property="en", type="string"),
     *         @OA\Property(property="fr", type="string"),
@@ -238,7 +238,7 @@ class DocumentController extends BaseController
     *         @OA\Property(property="description_en", type="string"),
     *         @OA\Property(property="description_fr", type="string"),
     *         @OA\Property(property="status", type="integer"),
-    *         @OA\Property(property="files", type="array", @OA\Items(
+    *         @OA\Property(property="docs", type="array", @OA\Items(
     *               @OA\Property(property="requestdoc_id", type="integer"),
     *               @OA\Property(property="required", type="integer"),
     *               example="[1|1, 2|1, 3|0]"
@@ -267,6 +267,7 @@ class DocumentController extends BaseController
             'period_id' => 'present',
             'description_en' => 'required',
             'description_fr' => 'required',
+            'docs' => 'required|array',
             'status' => 'required|integer|in:0,1',
         ]);
         //Error field
@@ -299,11 +300,11 @@ class DocumentController extends BaseController
             // Valider la transaction
             DB::commit();
             // Si des fichiers sont fournies, les associer au profil
-            if ($request->has('files') && is_array($request->files)) {
+            if ($request->has('docs') && is_array($request->docs)) {
                 // Supprimer les fichiers existantes pour ce document
                 File::where('document_id', $document->id)->delete();
-                foreach ($request->files as $files) {
-                    $file = Str::of($files)->explode('|');
+                foreach ($request->docs as $docs) {
+                    $file = Str::of($docs)->explode('|');
                     $requestdoc = Requestdoc::where('uid', $file[0])->first();
                     // Enregistrer le fichier
                     File::firstOrCreate([
