@@ -70,7 +70,7 @@ class ProfileController extends BaseController
         $user = Auth::user();
 		App::setLocale($user->lg);
         // Vérifier si l'ID est présent et valide
-        $profile = Profile::select('id', "$user->lg as label", 'description_' . $user->lg . ' as description', 'status')
+        $profile = Profile::select('id', 'en', 'fr', 'description_en', 'description_fr', 'status')
         ->where('uid', $uid)
         ->first();
         if (!$profile) {
@@ -88,9 +88,11 @@ class ProfileController extends BaseController
             ->all();
             // Retourner les détails du profil avec les permissions
             return $this->sendSuccess('Détails sur le profil', [
-                'label' => $profile->label,
-                'description' => $profile->description,
-                'status' => $profile->status ? 'Activé' : 'Désactivé',
+                'label_en' => $profile->en,
+                'label_fr' => $profile->fr,
+                'description_en' => $profile->description_en,
+                'description_fr' => $profile->description_fr,
+                'status' => $profile->status,
                 'permissions' => $permissions,
             ]);
         } catch(\Exception $e) {
