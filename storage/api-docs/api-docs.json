@@ -486,26 +486,6 @@
                 }
             }
         },
-        "/api/documents/detail/{lg}/{uid}": {
-            "get": {
-                "tags": [
-                    "Lists"
-                ],
-                "description": "Détail d'un document",
-                "operationId": "showDocs",
-                "responses": {
-                    "200": {
-                        "description": "Détail d'un document."
-                    },
-                    "400": {
-                        "description": "Serveur indisponible."
-                    },
-                    "404": {
-                        "description": "Page introuvable."
-                    }
-                }
-            }
-        },
         "/api/password/verifemail": {
             "post": {
                 "tags": [

@@ -280,7 +280,9 @@ class ProfileController extends BaseController
         } catch (\Exception $e) {
             DB::rollBack(); // Annuler la transaction en cas d'erreur
             Log::warning("Profile::update : " . $e->getMessage() . " " . json_encode($set));
-            return $this->sendError("Erreur lors de l'enregistrement du Profil.");
+            if ($e->getCode() != 23000) {
+                return $this->sendError("Erreur lors de l'enregistrement du Profil.");
+            }
         }
 	}
     // Suppression d'un profil
