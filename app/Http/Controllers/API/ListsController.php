@@ -362,22 +362,23 @@ class ListsController extends BaseController
 		App::setLocale($lg);
         try {
             // Code to list documents
-            $query = Document::select('id', 'uid', 'code', "$lg as label", 'amount', 'number', 'description_' . $lg . ' as description', 'period_id')
+            $query = [];
+            $documents = Document::select('id', 'uid', 'code', "$lg as label", 'amount', 'number', 'description_' . $lg . ' as description', 'period_id')
             ->where('status', 1)
             ->orderBy('label')
             ->get();
             // Vérifier si les données existent
-            if ($query->isEmpty()) {
+            if ($documents->isEmpty()) {
                 Log::warning("List::documents - Aucun document trouvé.");
                 return $this->sendSuccess("Aucune donnée trouvée.");
             }
-            foreach ($query as $data) {
+            foreach ($documents as $document) {
                 // Periodes
                 $period = Period::select('id', "$lg as label")
-                ->where('id', $data->period_id)
+                ->where('id', $document->period_id)
                 ->first();
                 // Charger les fichiers avec eager loading et les transformer directement
-                $documentWithFiles = Document::with(['files.requestdoc'])->find($data->id);
+                $documentWithFiles = Document::with(['files.requestdoc'])->find($document->id);
                 $docs = $documentWithFiles->files
                 ->map(function ($file) use ($lg) {
                     return [
@@ -389,14 +390,13 @@ class ListsController extends BaseController
                 ->sortBy('label')
                 ->values()
                 ->all();
-                // Retourner les détails du document avec les files
-                return $this->sendSuccess('Liste des documents', [
-                    'uid' => $data->uid,
-                    'code' => $data->code,
-                    'label' => $data->label,
-                    'amount' => $data->amount,
-                    'number' => $data->number,
-                    'description' => $data->description,
+                array_push($query, [
+                    'uid' => $document->uid,
+                    'code' => $document->code,
+                    'label' => $document->label,
+                    'amount' => $document->amount,
+                    'number' => $document->number,
+                    'description' => $document->description,
                     'periods' => [
                         'id' => $period->id,
                         'label' => $period->label,
@@ -404,6 +404,7 @@ class ListsController extends BaseController
                     'docs' => $docs,
                 ]);
             }
+            return $this->sendSuccess("Liste des documents.", $query);
         } catch (\Exception $e) {
             Log::warning("List::documents - Erreur lors de la récupération des documents: " . $e->getMessage());
             return $this->sendError("Erreur lors de la récupération des documents.");
