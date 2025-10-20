@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('requestdocs', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('en', 255);
             $table->string('fr', 255);
-            $table->tinyinteger('status')->default('1');
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
             $table->integer('created_user');
             $table->integer('updated_user')->default('0');

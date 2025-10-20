@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('lastname', 255);
             $table->string('firstname', 255);
             $table->string('gender', 1);
@@ -44,7 +44,7 @@ return new class extends Migration
             $table->text('comment')->nullable();
             $table->string('lg', 2);
             $table->timestamp('login_at')->nullable();
-            $table->tinyinteger('status')->default('0');
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
             $table->timestamp('activated_at')->nullable();
             $table->timestamp('blocked_at')->nullable();

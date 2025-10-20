@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('rdv', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('lastname', 255);
             $table->string('firstname', 255);
             $table->string('number', 50)->nullable();
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('motif');
             $table->text('comment')->nullable();
             $table->timestamp('daterdv_at')->nullable();
-            $table->tinyinteger('status')->default('0');
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
             $table->integer('user_id')->default('0');
         });

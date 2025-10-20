@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('en', 50);
             $table->string('fr', 50);
             $table->text('description_en')->nullable();

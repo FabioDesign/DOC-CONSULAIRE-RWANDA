@@ -178,7 +178,7 @@ class DocumentController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Document::store - Validator : " . json_encode($request->all()));
+            Log::warning("Document::store - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Création de la reclamation
@@ -278,7 +278,7 @@ class DocumentController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Document::update - Validator : " . json_encode($request->all()));
+            Log::warning("Document::update - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Vérifier si l'ID est présent et valide

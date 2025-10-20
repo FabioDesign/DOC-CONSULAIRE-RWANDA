@@ -219,7 +219,7 @@ class RegisterController extends BaseController
 		App::setLocale($request->lg);
         //Error field
         if ($validator->fails()) {
-            Log::warning("User::store - Validator : " . json_encode($request->all()));
+            Log::warning("User::store - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendSuccess('Champs invalides.', $validator->errors(), 422);
         }
         // Paramètre de Recapcha

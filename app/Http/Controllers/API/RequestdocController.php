@@ -121,7 +121,7 @@ class RequestdocController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Requestdoc::store - Validator : " . json_encode($request->all()));
+            Log::warning("Requestdoc::store - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Création de la reclamation
@@ -182,7 +182,7 @@ class RequestdocController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Requestdoc::update - Validator : " . json_encode($request->all()));
+            Log::warning("Requestdoc::update - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Vérifier si l'ID est présent et valide

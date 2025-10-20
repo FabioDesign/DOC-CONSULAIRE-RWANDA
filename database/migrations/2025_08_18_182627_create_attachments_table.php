@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('attachments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('filename', 255);
-            $table->tinyinteger('status')->default('1');
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
             $table->integer('user_id');
             $table->integer('file_id');

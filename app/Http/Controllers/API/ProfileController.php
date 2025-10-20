@@ -145,7 +145,7 @@ class ProfileController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Profile::store - Validator : " . json_encode($request->all()));
+            Log::warning("Profile::store - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Création de la reclamation
@@ -233,7 +233,7 @@ class ProfileController extends BaseController
         ]);
         //Error field
         if($validator->fails()){
-            Log::warning("Profile::update - Validator : " . json_encode($request->all()));
+            Log::warning("Profile::update - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Vérifier si l'ID est présent et valide

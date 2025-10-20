@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('spouses', function (Blueprint $table) {
             $table->id();
-            $table->tinyinteger('rank');
+            $table->tinyInteger('rank');
             $table->string('filename', 255);
             $table->date('wedding_at')->nullable();
-            $table->tinyinteger('status')->default('1');
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
             $table->integer('user_id');
             $table->integer('spouse_id');

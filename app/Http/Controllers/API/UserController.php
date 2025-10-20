@@ -295,7 +295,7 @@ class UserController extends BaseController
         ]);
         //Error field
         if ($validator->fails()) {
-            Log::warning("User::update - Validator : " . json_encode($request->all()));
+            Log::warning("User::update - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendError('Champs invalides.', $validator->errors(), 422);
         }
         // Vérifier si l'ID est présent et valide
@@ -475,7 +475,7 @@ class UserController extends BaseController
         ]);
         //Error field
         if ($validator->fails()) {
-            Log::warning("User::profil - Validator : " . json_encode($request->all()));
+            Log::warning("User::profil - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendSuccess('Champs invalides.', $validator->errors(), 422);
         }
         // Formatage du nom et prénoms
@@ -550,7 +550,7 @@ class UserController extends BaseController
 		App::setLocale($user->lg);
         //Error field
         if ($validator->fails()) {
-            Log::warning("User::photo - Validator : " . json_encode($request->all()));
+            Log::warning("User::photo - Validator : " . $validator->errors()->first() . " - ".json_encode($request->all()));
             return $this->sendSuccess('Champs invalides.', $validator->errors(), 422);
         }
         // Upload photo

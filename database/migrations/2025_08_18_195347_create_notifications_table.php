@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('en', 255);
             $table->string('fr', 255);
             $table->string('target', 255);

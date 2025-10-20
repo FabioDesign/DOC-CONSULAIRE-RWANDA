@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('code', 5)->unique();
             $table->string('en', 255);
             $table->string('fr', 255);
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('number')->default('0');
             $table->text('description_en');
             $table->text('description_fr');
-            $table->tinyinteger('status');
+            $table->tinyInteger('status');
             $table->timestamps();
             $table->integer('period_id');
             $table->integer('created_user');

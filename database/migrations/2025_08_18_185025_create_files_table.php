@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->tinyinteger('required');
-            $table->tinyinteger('status')->default('1');
+            $table->tinyInteger('required');
+            $table->tinyInteger('status')->default('1');
             $table->timestamps();
             $table->integer('requestdoc_id');
             $table->integer('document_id');

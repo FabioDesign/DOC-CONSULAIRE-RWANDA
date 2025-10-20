@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('demands', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uid')->unique();
+            $table->uuid('uid');
             $table->string('code', 50);
             $table->timestamp('daterdv_at');
             $table->timestamp('controller_at')->nullable();
             $table->timestamp('validator_at')->nullable();
-            $table->tinyinteger('status')->default('0');
+            $table->tinyInteger('status')->default('0');
             $table->timestamps();
             $table->integer('user_id');
             $table->integer('document_id');
